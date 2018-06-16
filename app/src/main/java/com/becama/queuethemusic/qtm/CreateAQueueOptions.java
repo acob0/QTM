@@ -163,7 +163,7 @@ public class CreateAQueueOptions extends AppCompatActivity {
                 Toast.makeText(this, "Please fill in all the details", Toast.LENGTH_SHORT).show();
             }else{
                 queueName1 = queueName;
-0                new AsyncCreateQueue().execute(queueName, duplicateSwitch, password);
+                new AsyncCreateQueue().execute(queueName, duplicateSwitch, password);
             }
         }
         locationManager.removeUpdates(locationListener);

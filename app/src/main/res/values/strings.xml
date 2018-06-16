@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">QTheMusic</string>
+    <string name="hp_would_you_like_to">What would you like to do</string>
+    <string name="hp_create">Create Queue</string>
+    <string name="hp_join">Join Queue</string>
+    <string name="cr1_create_a_queue">Create a Queue</string>
+    <string name="create">Create</string>
+    <string name="password">Password</string>
+    <string name="queue_name">Queue Name</string>
+    <string name="test">Test</string>
+    <string name="members">Members</string>
+    <string name="songs">Songs</string>
+    <string name="previous"><![CDATA[<<]]></string>
+    <string name="next"><![CDATA[>>]]></string>
+    <string name="search">Search</string>
+    <string name="song_name">Song Name</string>
+    <string name="title_activity_create_join_queue">CreateJoinQueue</string>
+    <string name="sign_up">Sign up</string>
+    <string name="first_name">First Name</string>
+    <string name="surname">Surname</string>
+    <string name="email">Email</string>
+    <string name="age">Age</string>
+    <string name="repeat_password">Repeat Password</string>
+    <string name="create_account">Create Account</string>
+</resources>

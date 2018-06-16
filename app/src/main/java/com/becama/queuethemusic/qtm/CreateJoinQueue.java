@@ -1,0 +1,182 @@
+package com.becama.queuethemusic.qtm;
+
+import android.app.ProgressDialog;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.net.Uri;
+import android.os.AsyncTask;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+
+import static com.becama.queuethemusic.qtm.CreateAQueueHomePage.PREFS_NAME;
+
+public class CreateJoinQueue extends AppCompatActivity {
+    public static final int CONNECTION_TIMEOUT=10000;
+    public static final int READ_TIMEOUT=15000;
+    private String userName;
+    private TextView createManageQueue;
+    private String product;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_create_join_queue);
+
+        SharedPreferences settings = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+
+        userName = settings.getString("userName", "No info");
+        product = settings.getString("product", "No info");
+
+        createManageQueue = findViewById(R.id.cjq_manage_button);
+
+        if(product.equals("premium")){
+            createManageQueue.setVisibility(View.VISIBLE);
+        } else{
+            createManageQueue.setVisibility(View.GONE);
+        }
+
+        //new AsyncCheckForQueues().execute(userName);
+    }
+
+    public void CreateQueue(View view) {
+        if(product.equals("premium")) {
+            Intent intent = new Intent(this, CreateAQueueOptions.class);
+            intent.putExtra("userName", userName);
+            intent.putExtra("productType", product);
+            startActivity(intent);
+            finish();
+        }else{
+            Toast.makeText(this, "You need to have Spotify premium to host a queue", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void ManageQueues(View view) {
+        if(product.equals("premium")) {
+            Intent intent = new Intent(this, ManageQueues.class);
+            intent.putExtra("userName", userName);
+            intent.putExtra("productType", product);
+            startActivity(intent);
+            finish();
+        }else{
+            Toast.makeText(this, "You need to have Spotify premium to host a queue", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void JoinQueue(View view) {
+        Intent intent = new Intent(this, QueueSearch.class);
+        intent.putExtra("userName", userName);
+        intent.putExtra("productType", product);
+        startActivity(intent);
+        finish();
+    }
+
+    /*private class AsyncCheckForQueues extends AsyncTask<String, String, String>
+    {
+        HttpURLConnection conn;
+        URL url = null;
+
+        @Override
+        protected String doInBackground(String... params) {
+            try {
+                // Enter URL address where your php file resides
+                url = new URL("http://queuethemusic.000webhostapp.com/check_your_queues.php");
+
+            } catch (MalformedURLException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+                return "exception";
+            }
+            try {
+                // Setup HttpURLConnection class to send and receive data from php and mysql
+                conn = (HttpURLConnection)url.openConnection();
+                conn.setReadTimeout(READ_TIMEOUT);
+                conn.setConnectTimeout(CONNECTION_TIMEOUT);
+                conn.setRequestMethod("POST");
+
+                // setDoInput and setDoOutput method depict handling of both send and receive
+                conn.setDoInput(true);
+                conn.setDoOutput(true);
+
+                // Append parameters to URL
+                Uri.Builder builder = new Uri.Builder()
+                        .appendQueryParameter("user", params[0]);
+                String query = builder.build().getEncodedQuery();
+
+                // Open connection for sending data
+                OutputStream os = conn.getOutputStream();
+                BufferedWriter writer = new BufferedWriter(
+                        new OutputStreamWriter(os, "UTF-8"));
+                writer.write(query);
+                writer.flush();
+                writer.close();
+                os.close();
+                conn.connect();
+
+            } catch (IOException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+                return "exception";
+            }
+
+            try {
+
+                int response_code = conn.getResponseCode();
+
+                // Check if successful connection made
+                if (response_code == HttpURLConnection.HTTP_OK) {
+
+                    // Read data sent from server
+                    InputStream input = conn.getInputStream();
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(input));
+                    StringBuilder result = new StringBuilder();
+                    String line;
+
+                    while ((line = reader.readLine()) != null) {
+                        result.append(line);
+                    }
+
+                    // Pass data to onPostExecute method
+                    return(result.toString());
+
+                }else{
+
+                    return("unsuccessful");
+                }
+
+            } catch (IOException e) {
+                e.printStackTrace();
+                return "exception";
+            } finally {
+                conn.disconnect();
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            if (result.equalsIgnoreCase("exception") || result.equalsIgnoreCase("unsuccessful")){
+                Toast.makeText(CreateJoinQueue.this, "Oops! Something went wrong. Connection Problem.", Toast.LENGTH_LONG).show();
+            }
+            else if(Integer.valueOf(result) == 0)
+            {
+                createManageQueue.setVisibility(View.GONE);
+            }else {
+                createManageQueue.setVisibility(View.VISIBLE);
+            }
+        }
+
+    }*/
+}

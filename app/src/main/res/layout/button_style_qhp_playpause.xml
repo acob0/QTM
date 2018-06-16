@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android" android:layout_height="50dp" android:layout_width="250dp">
+    <item android:drawable="@drawable/qhp_play_button" android:state_activated ="false"/>
+    <item android:drawable="@drawable/qhp_pause_button" android:state_activated="true" /><!-- Pressed/Tapped Button View -->
+</selector>
